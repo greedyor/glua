@@ -1,4 +1,4 @@
-package lib
+package glua
 
 import (
 	lua "github.com/yuin/gopher-lua"

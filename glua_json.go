@@ -1,4 +1,4 @@
-package lib
+package glua
 
 import (
 	"encoding/json"
