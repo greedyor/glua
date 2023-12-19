@@ -1,6 +1,7 @@
 package glua
 
 import (
+	"encoding/json"
 	"fmt"
 
 	lua "github.com/yuin/gopher-lua"
@@ -30,5 +31,25 @@ func ValueToLua(L *lua.LState, value interface{}) lua.LValue {
 		return table
 	default:
 		panic(fmt.Sprintf("Unsupported type: %T", v))
+	}
+}
+
+func LuaValueToString(L *lua.LState, value lua.LValue) string {
+	switch value.Type().String() {
+	case "nil":
+		return ""
+	case "boolean", "number", "string":
+		return value.String()
+	case "table":
+		goMap := make(map[string]interface{})
+		table := L.NewTable()
+		table.Append(value)
+		table.ForEach(func(key lua.LValue, value lua.LValue) {
+			goMap[key.String()] = value
+		})
+		jsonBytes, _ := json.Marshal(goMap)
+		return string(jsonBytes)
+	default:
+		panic("Unsupported type:" + value.Type().String())
 	}
 }

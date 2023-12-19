@@ -1,11 +1,14 @@
 package glua
 
-import "errors"
+import (
+	lua "github.com/yuin/gopher-lua"
+)
 
-func (gl *lvaVM) GetError() error {
-	errstr := gl.GetGlobal("Error").String()
-	if errstr == "nil" {
-		return nil
-	}
-	return errors.New(errstr)
+func SetError(L *lua.LState) int {
+	L.SetGlobal("gluaError", ValueToLua(L, LuaValueToString(L, L.CheckAny(1))))
+	return 1
+}
+
+func (gl *GluaVM) GetError() error {
+	return gl.luaError
 }

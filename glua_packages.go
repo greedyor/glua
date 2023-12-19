@@ -9,6 +9,7 @@ import (
 var Packages = map[string]map[string]lua.LGFunction{
 	"json": JsonFunctions,
 	"http": HttpFunctions,
+	"sys":  SystemFunctions,
 }
 
 var JsonFunctions = map[string]lua.LGFunction{
@@ -21,6 +22,11 @@ var HttpFunctions = map[string]lua.LGFunction{
 	"get":      Get,
 	"post":     PostForm,
 	"postJSON": PostJSON,
+}
+
+var SystemFunctions = map[string]lua.LGFunction{
+	"errors": SetError,
+	"result": SetResult,
 }
 
 // import base packages
