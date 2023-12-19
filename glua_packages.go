@@ -7,9 +7,9 @@ import (
 // Temporarily set up some Lua methods...
 
 var Packages = map[string]map[string]lua.LGFunction{
-	"json": JsonFunctions,
-	"http": HttpFunctions,
-	"sys":  SystemFunctions,
+	"json":   JsonFunctions,
+	"http":   HttpFunctions,
+	"result": SystemFunctions,
 }
 
 var JsonFunctions = map[string]lua.LGFunction{
@@ -25,15 +25,16 @@ var HttpFunctions = map[string]lua.LGFunction{
 }
 
 var SystemFunctions = map[string]lua.LGFunction{
-	"errors": SetError,
-	"result": SetResult,
+	"errors":  SetError,
+	"success": SetSuccess,
 }
 
 // import base packages
-func ImportGluaPackges(luaVM *lua.LState, packageArgs []string) {
+func ImportGluaPackges(glua *GluaVM, packageArgs []string) *GluaVM {
 	for _, v := range packageArgs {
 		if _, flag := Packages[v]; flag {
-			luaVM.SetGlobal(v, luaVM.SetFuncs(luaVM.NewTable(), Packages[v]))
+			glua.LState.SetGlobal(v, glua.LState.SetFuncs(glua.LState.NewTable(), Packages[v]))
 		}
 	}
+	return glua
 }

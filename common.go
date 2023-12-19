@@ -9,16 +9,50 @@ import (
 
 type GluaVM struct {
 	*lua.LState
-	Path     string
-	Loaded   atomic.Bool
-	luaError error
+	LuaCode string
+	Path    string
+	Loaded  atomic.Bool
+}
+
+func ExecToPath(path string, importPackages []string) (res string, err error) {
+	gl := &GluaVM{
+		Path:   path,
+		LState: lua.NewState(),
+	}
+
+	ImportGluaPackges(gl, importPackages)
+
+	if err = gl.Load(); err != nil {
+		return
+	}
+
+	res = gl.GetSuccess()
+	err = gl.GetError()
+
+	return
+}
+
+func ExecToCode(code string, importPackages []string) (res string, err error) {
+	gl := &GluaVM{
+		LuaCode: code,
+		LState:  lua.NewState(),
+	}
+
+	ImportGluaPackges(gl, importPackages)
+
+	if err = gl.DoString(code); err != nil {
+		return
+	}
+
+	res = gl.GetSuccess()
+	err = gl.GetError()
+
+	return
 }
 
 // create new a struct and load lua script
 func Exec(path string, importPackages []string) (gl *GluaVM, err error) {
-	gl = New(path)
-
-	ImportGluaPackges(gl.LState, importPackages)
+	gl = New(path).Imports(importPackages)
 
 	if err = gl.Load(); err != nil {
 		return
@@ -27,11 +61,14 @@ func Exec(path string, importPackages []string) (gl *GluaVM, err error) {
 }
 
 func New(path string) *GluaVM {
-	lv := &GluaVM{
+	return &GluaVM{
 		Path:   path,
 		LState: lua.NewState(),
 	}
-	return lv
+}
+
+func (gl *GluaVM) Imports(importPackages []string) *GluaVM {
+	return ImportGluaPackges(gl, importPackages)
 }
 
 func (gl *GluaVM) Load() error {
