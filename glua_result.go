@@ -21,7 +21,7 @@ func SetError(L *lua.LState) int {
 }
 
 func (G *GluaVM) GetError() error {
-	errString := G.GetGlobal("gluaError").String()
+	errString := LuaValueToString(G.LState, G.GetGlobal("gluaError"))
 	if errString != "" {
 		return errors.New(errString)
 	}
