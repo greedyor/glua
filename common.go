@@ -9,7 +9,7 @@ import (
 
 type GluaVM struct {
 	*lua.LState
-	*GluaContent
+	GluaContent
 	Loaded atomic.Bool
 }
 
