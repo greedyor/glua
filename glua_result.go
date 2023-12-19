@@ -7,7 +7,7 @@ import (
 )
 
 func SetSuccess(L *lua.LState) int {
-	L.SetGlobal("gluaResult", ValueToLua(L, LuaValueToString(L, L.CheckAny(1))))
+	L.SetGlobal("gluaResult", TypeToLuaValue(L, LuaValueToString(L, L.CheckAny(1))))
 	return 1
 }
 
@@ -16,7 +16,7 @@ func (G *GluaVM) GetSuccess() string {
 }
 
 func SetError(L *lua.LState) int {
-	L.SetGlobal("gluaError", ValueToLua(L, LuaValueToString(L, L.CheckAny(1))))
+	L.SetGlobal("gluaError", TypeToLuaValue(L, LuaValueToString(L, L.CheckAny(1))))
 	return 1
 }
 

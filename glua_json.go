@@ -7,17 +7,14 @@ import (
 )
 
 func TableToJson(L *lua.LState) int {
-	table := L.CheckTable(1)
+	value := L.Get(1)
 
-	goMap := make(map[string]interface{})
-	table.ForEach(func(key lua.LValue, value lua.LValue) {
-		goMap[key.String()] = value
-	})
+	goData := LuaValueToType(value)
 
-	jsonBytes, err := json.Marshal(goMap)
+	jsonBytes, err := json.Marshal(goData)
 	if err != nil {
-		L.Push(lua.LString(""))
-		return 2
+		L.RaiseError("failed to encode JSON: %v", err)
+		return 0
 	}
 
 	L.Push(lua.LString(jsonBytes))
@@ -25,19 +22,17 @@ func TableToJson(L *lua.LState) int {
 }
 
 func JsonToTable(L *lua.LState) int {
-	jsonData := L.CheckString(1)
+	jsonString := L.ToString(1)
 
-	var data map[string]interface{}
-	err := json.Unmarshal([]byte(jsonData), &data)
+	var goData interface{}
+	err := json.Unmarshal([]byte(jsonString), &goData)
 	if err != nil {
-		panic(err)
+		L.RaiseError("failed to decode JSON: %!(NOVERB)v", err)
+		return 0
 	}
 
-	table := L.NewTable()
-	for key, value := range data {
-		L.SetTable(table, lua.LString(key), ValueToLua(L, value))
-	}
+	luaValue := TypeToLuaValue(L, goData)
 
-	L.Push(table)
+	L.Push(luaValue)
 	return 1
 }
