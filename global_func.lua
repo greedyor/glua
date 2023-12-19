@@ -1,5 +1,5 @@
 --
--- Below is golang Implementation method，func For IDE use   
+-- The following is the implementation method of Golang, Func for IDE use
 --
 
 -- set return
