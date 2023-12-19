@@ -12,6 +12,10 @@ import (
 func Request(L *lua.LState) int {
 	method := L.CheckString(2)
 
+	if method == "" {
+		method = "GET"
+	}
+
 	switch method {
 	case "GET":
 		return Get(L)
