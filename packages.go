@@ -5,7 +5,6 @@ import (
 )
 
 // Temporarily set up some Lua methods...
-
 var Packages = map[string]map[string]lua.LGFunction{
 	"json":   JsonFunctions,
 	"http":   HttpFunctions,

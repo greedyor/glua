@@ -10,7 +10,6 @@ func TableToJson(L *lua.LState) int {
 	value := L.Get(1)
 
 	goData := LuaValueToType(value)
-
 	jsonBytes, err := json.Marshal(goData)
 	if err != nil {
 		L.RaiseError("failed to encode JSON: %v", err)
@@ -27,12 +26,10 @@ func JsonToTable(L *lua.LState) int {
 	var goData interface{}
 	err := json.Unmarshal([]byte(jsonString), &goData)
 	if err != nil {
-		L.RaiseError("failed to decode JSON: %!(NOVERB)v", err)
+		L.RaiseError("failed to decode JSON: %v", err)
 		return 0
 	}
 
-	luaValue := TypeToLuaValue(L, goData)
-
-	L.Push(luaValue)
+	L.Push(TypeToLuaValue(L, goData))
 	return 1
 }
