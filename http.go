@@ -47,6 +47,11 @@ func Get(L *lua.LState) int {
 		L.Push(lua.LString(err.Error()))
 		return 2
 	}
+	if len(body) == 0 {
+		L.Push(lua.LNil)
+		L.Push(lua.LString("no response"))
+		return 2
+	}
 
 	L.Push(lua.LString(body))
 	return 1
@@ -75,6 +80,11 @@ func PostForm(L *lua.LState) int {
 		L.Push(lua.LString(err.Error()))
 		return 2
 	}
+	if len(body) == 0 {
+		L.Push(lua.LNil)
+		L.Push(lua.LString("no response"))
+		return 2
+	}
 
 	L.Push(lua.LString(body))
 	return 1
@@ -96,6 +106,11 @@ func PostJSON(L *lua.LState) int {
 	if err != nil {
 		L.Push(lua.LNil)
 		L.Push(lua.LString(err.Error()))
+		return 2
+	}
+	if len(body) == 0 {
+		L.Push(lua.LNil)
+		L.Push(lua.LString("no response"))
 		return 2
 	}
 
