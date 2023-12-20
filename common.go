@@ -20,6 +20,7 @@ type GluaContent struct {
 
 func ExecToPath(path string, importPackages []string) (res string, err error) {
 	gl := New().SetPuth(path).Imports(importPackages)
+	defer gl.Close()
 
 	if err = gl.LoadFile(); err != nil {
 		return
@@ -33,6 +34,7 @@ func ExecToPath(path string, importPackages []string) (res string, err error) {
 
 func ExecToCode(code string, importPackages []string) (res string, err error) {
 	gl := New().SetCode(code).Imports(importPackages)
+	defer gl.Close()
 
 	if err = gl.DoString(code); err != nil {
 		return
@@ -47,6 +49,7 @@ func ExecToCode(code string, importPackages []string) (res string, err error) {
 // create new a struct and load lua script
 func Exec(path string, importPackages []string) (gl *GluaVM, err error) {
 	gl = New().SetPuth(path).Imports(importPackages)
+	defer gl.Close()
 
 	if err = gl.LoadFile(); err != nil {
 		return

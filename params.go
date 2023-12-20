@@ -30,7 +30,7 @@ func LuaValueToType(L lua.LValue) interface{} {
 	switch value := L.(type) {
 	case *lua.LTable:
 		var isArray bool
-		if value.Len() > 0 && value.RawGetInt(0).Type().String() == "number" {
+		if value.Len() > 0 {
 			isArray = true
 		}
 		if isArray {
