@@ -17,8 +17,6 @@ func (G *GluaVM) GetSuccess() string {
 
 func SetError(L *lua.LState) int {
 	L.SetGlobal("gluaError", TypeToLuaValue(L, LuaValueToString(L, L.CheckAny(1))))
-	// exit
-	defer L.DoString(`os.exit()`)
 	return 1
 }
 
