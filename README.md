@@ -60,7 +60,7 @@ end
 ## Installation
 
 ```
-go get github.com/
+go get github.com/greedyor/glua
 ```
 
 GopherLua supports >= Go1.9.
