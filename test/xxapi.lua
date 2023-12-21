@@ -15,10 +15,6 @@ else
         shortName = tableData.short_name,
         icons = tableData.icons,
     }
-
-    -- local a = json.encodeToTable(tableData.icons[0])
-    -- print(a)
-
-    -- 返回信息
+    
     result.success(json.encodeToTable(fields))
 end
