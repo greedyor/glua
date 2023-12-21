@@ -18,7 +18,7 @@ type GluaContent struct {
 	LuaPath string
 }
 
-func ExecToPath(path string, importPackages []string) (res string, err error) {
+func ExecToPath(path string, importPackages ...string) (res string, err error) {
 	gl := New().SetPuth(path).Imports(importPackages)
 	defer gl.Close()
 
@@ -32,7 +32,7 @@ func ExecToPath(path string, importPackages []string) (res string, err error) {
 	return
 }
 
-func ExecToCode(code string, importPackages []string) (res string, err error) {
+func ExecToCode(code string, importPackages ...string) (res string, err error) {
 	gl := New().SetCode(code).Imports(importPackages)
 	defer gl.Close()
 
@@ -47,7 +47,7 @@ func ExecToCode(code string, importPackages []string) (res string, err error) {
 }
 
 // create new a struct and load lua script
-func Exec(path string, importPackages []string) (gl *GluaVM, err error) {
+func Exec(path string, importPackages ...string) (gl *GluaVM, err error) {
 	gl = New().SetPuth(path).Imports(importPackages)
 	defer gl.Close()
 
@@ -59,9 +59,13 @@ func Exec(path string, importPackages []string) (gl *GluaVM, err error) {
 }
 
 func New() *GluaVM {
-	return &GluaVM{
+	gl := &GluaVM{
 		LState: lua.NewState(),
 	}
+
+	InitPreloadModules(gl)
+
+	return gl
 }
 
 func (gl *GluaVM) SetPuth(path string) *GluaVM {
