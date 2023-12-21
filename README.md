@@ -21,6 +21,7 @@ if err != nil {
 	panic("ExecToPath error:", err)
 }
 ```
+or
 ```golang
 data, err := glua.ExecToCode("print("hello")")
 if err != nil {
