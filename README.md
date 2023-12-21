@@ -7,7 +7,7 @@ Relying on the gopher-lua plugin to quickly process lua.
 ## usage
 
 Import a package.
-```
+```golang
 import (
     "github.com/greedyor/glua"
 )
@@ -15,13 +15,13 @@ import (
 
 Run scripts 
 
-```
+```golang
 data, err := glua.ExecToPath("./xxapi.lua")
 if err != nil {
 	panic("ExecToPath error:", err)
 }
 ```
-```
+```golang
 data, err := glua.ExecToCode("print("hello")")
 if err != nil {
 	panic("ExecToCode error:", err)
@@ -31,7 +31,8 @@ if err != nil {
 
 ```xxapi.lua``` example
 
-```
+```lua
+-- require func
 local http = require("http")
 local json = require("json")
 local result = require("result")
