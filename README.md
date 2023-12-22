@@ -1,6 +1,6 @@
 # glua
 
-Relying on the gopher-lua plugin to quickly process lua.
+Relying on the [gopher-lua](https://github.com/yuin/gopher-lua) plugin to quickly process lua.
 
 
 
@@ -18,7 +18,7 @@ Run scripts
 ```golang
 data, err := glua.ExecToPath("./xxapi.lua")
 if err != nil {
-	panic("ExecToPath error:", err)
+    panic("ExecToPath error:", err)
 }
 ```
 or
