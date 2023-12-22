@@ -1,10 +1,10 @@
-# glua
+# Glua
 
 Relying on the [gopher-lua](https://github.com/yuin/gopher-lua) plugin to quickly process lua.
 
 
 
-## usage
+## Usage
 
 Import a package.
 ```golang
