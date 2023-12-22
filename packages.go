@@ -46,11 +46,21 @@ func ImportGluaPackges(glua *GluaVM, packageArgs []string) *GluaVM {
 
 // init base packages
 func InitPreloadModules(glua *GluaVM) {
-	for module, funcs := range RequirePackages {
-		glua.PreloadModule(module, func(L *lua.LState) int {
-			// returns the module
-			L.Push(L.SetFuncs(L.NewTable(), funcs))
-			return 1
-		})
-	}
+	glua.PreloadModule("json", func(L *lua.LState) int {
+		// returns the module
+		L.Push(L.SetFuncs(L.NewTable(), JsonFunctions))
+		return 1
+	})
+
+	glua.PreloadModule("http", func(L *lua.LState) int {
+		// returns the module
+		L.Push(L.SetFuncs(L.NewTable(), HttpFunctions))
+		return 1
+	})
+
+	glua.PreloadModule("result", func(L *lua.LState) int {
+		// returns the module
+		L.Push(L.SetFuncs(L.NewTable(), SystemFunctions))
+		return 1
+	})
 }
