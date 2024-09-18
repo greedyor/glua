@@ -16,14 +16,14 @@ import (
 Run scripts 
 
 ```golang
-data, err := glua.ExecToPath("./xxapi.lua")
+data, err := glua.ExecToPath(`./xxapi.lua`)
 if err != nil {
     panic("ExecToPath error:", err)
 }
 ```
 or
 ```golang
-data, err := glua.ExecToCode("print("hello")")
+data, err := glua.ExecToCode(`print("hello")`)
 if err != nil {
 	panic("ExecToCode error:", err)
 }
