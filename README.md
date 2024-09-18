@@ -16,7 +16,7 @@ import (
 Run scripts 
 
 ```golang
-data, err := glua.ExecToPath("./xxapi.lua")
+data, err := glua.ExecToPath(`./xxapi.lua`)
 if err != nil {
     panic("ExecToPath error:", err)
 }
